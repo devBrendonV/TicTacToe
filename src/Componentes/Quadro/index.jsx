@@ -32,6 +32,73 @@ const Quadro = () => {
     setCasa7,
     setCasa8,
   ];
+
+
+
+
+
+  function resetarCasas() {
+    return setCasas.map((casa) => {
+      return casa(false);
+    });
+  }
+
+  function resetarMarcados() {
+    return marcados.map((valor, indice) => {
+      marcados.splice(indice, 1, "");
+    });
+  }
+
+  function resetar(prop) {
+    setTravar(true);
+    setVezJogador();
+    if (prop === 1) {
+      if (jogarContraComputador === false) {
+        setResultado(
+          `${nomeJogador1.trim().length === 0 ? "JOGADOR 1" : nomeJogador1}` +
+            " GANHOU !!"
+        );
+      }
+      if (jogarContraComputador === true) {
+        setResultado(
+          `${nomeJogador1.trim().length === 0 ? "JOGADOR" : nomeJogador1}` +
+            " GANHOU !!"
+        );
+      }
+    }
+    if (prop === 2) {
+      if (jogarContraComputador === false) {
+        setResultado(
+          `${nomeJogador2.trim().length === 0 ? "JOGADOR 2" : nomeJogador2}` +
+            " GANHOU !!"
+        );
+      }
+
+      if (jogarContraComputador === true) {
+        setResultado("COMPUTADOR GANHOU !!");
+      }
+    }
+    if (prop === 3) {
+      setResultado("EMPATOU !!!!");
+    }
+    if (prop === 4) {
+      setResultado("RESETANDO...");
+    }
+    if (prop === 5) {
+      setResultado("ALTERANDO MODO...");
+      setPontosJogador1(0);
+      setpontosJogador2(0);
+      setJogarContraComputador(!jogarContraComputador);
+    }
+    setTimeout(() => {
+      resetarCasas();
+      setJogadas(0);
+      resetarMarcados();
+      setVezJogador(false);
+      setResultado(false);
+      setTravar(false);
+    }, 1000);
+  }
   return (
     <Container>
       
