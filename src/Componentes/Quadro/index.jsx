@@ -35,7 +35,115 @@ const Quadro = () => {
 
 
 
+  function mapear() {
+    const mapeado = casas.map((bloco, indice) => {
+      return (
+        <Quadrinho
+          border={indice}
+          key={indice}
+          disabled={casas[indice] || travar}
+          onClick={() => {
+            puxarSimbolo(indice);
+          }}
+        >
+          {casas[indice]}
+        </Quadrinho>
+      );
+    });
+    setFileiras(mapeado);
+  }
 
+  useEffect(() => {
+    if (travar === false) {
+      mapear();
+      conferirGanhador();
+    }
+    if (marcados.includes(10)) {
+      setMenu(true);
+    }
+  }, [vezJogador, travar]);
+
+  function marcar(valor, indice) {
+    marcados.splice(indice, 1, valor);
+  }
+
+  function puxarSimbolo(indice) {
+    if (jogarContraComputador === false) {
+      if (vezJogador === false) {
+        marcar(10, indice);
+      }
+      if (vezJogador === true) {
+        marcar(1, indice);
+      }
+      setJogadas(jogadas + 1);
+      setVezJogador(!vezJogador);
+      return setCasas[indice](
+        <Simbolo jogador={vezJogador} hidden={true}></Simbolo>
+      );
+    }
+    if (jogarContraComputador === true) {
+      if (vezJogador === false && travar === false) {
+        marcar(10, indice);
+        setJogadas(jogadas + 2);
+        setVezJogador(true);
+        return setCasas[indice](
+          <Simbolo jogador={false} hidden={true}></Simbolo>
+        );
+      }
+    }
+  }
+
+  function conferirGanhador() {
+    // Conferir Linhas
+    for (let x = 0; x < marcados.length; x += 3) {
+      if (marcados[x] + marcados[x + 1] + marcados[x + 2] === 30) {
+        setPontosJogador1(pontosJogador1 + 1);
+        return resetar(1);
+      }
+      if (marcados[x] + marcados[x + 1] + marcados[x + 2] === 3) {
+        setpontosJogador2(pontosJogador2 + 1);
+        return resetar(2);
+      }
+    }
+    // Conferir Colunas
+    for (let x = 0; x < marcados.length; x++) {
+      if (marcados[x] + marcados[x + 3] + marcados[x + 6] === 30) {
+        setPontosJogador1(pontosJogador1 + 1);
+        return resetar(1);
+      }
+      if (marcados[x] + marcados[x + 3] + marcados[x + 6] === 3) {
+        setpontosJogador2(pontosJogador2 + 1);
+        return resetar(2);
+      }
+    }
+    // Conferir Diagonais
+    for (let x = 0; x < marcados.length; x += 3) {
+      if (marcados[x] + marcados[x + 4] + marcados[x + 8] === 30) {
+        setPontosJogador1(pontosJogador1 + 1);
+        return resetar(1);
+      }
+      if (marcados[x] + marcados[x + 4] + marcados[x + 8] === 3) {
+        setpontosJogador2(pontosJogador2 + 1);
+        return resetar(2);
+      }
+    }
+    for (let x = 2; x < marcados.length; x += 3) {
+      if (marcados[x] + marcados[x + 2] + marcados[x + 4] === 30) {
+        setPontosJogador1(pontosJogador1 + 1);
+        return resetar(1);
+      }
+      if (marcados[x] + marcados[x + 2] + marcados[x + 4] === 3) {
+        setpontosJogador2(pontosJogador2 + 1);
+        return resetar(2);
+      }
+    }
+    if (vezJogador === true && jogarContraComputador === true) {
+      jogadaComputador();
+    }
+    if (jogadas >= 9) {
+      resetar(3);
+    }
+  }
   function jogadaComputador() {
     while (true) {
       const j = Math.floor(Math.random() * (9 + 1));
