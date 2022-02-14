@@ -223,7 +223,118 @@ const Quadro = () => {
   }
   return (
     <Container>
-      
+      <Focus hidden={menu}></Focus>
+      <Titulo hidden={menu}>TicTacToe</Titulo>
+      <Menu hidden={menu}>
+        <label htmlFor="">DIGITE O NOME DOS JOGADORES</label>
+        <input
+          maxLength={10}
+          type="text"
+          placeholder="Nome do primeiro Jogador..."
+          onChange={(e) => setNomeJogador1(e.target.value)}
+        />
+        <input
+          maxLength={10}
+          type="text"
+          placeholder="Nome do segundo Jogador..."
+          onChange={(e) => setNomeJogador2(e.target.value)}
+        />
+        <Botao onClick={() => setMenu(true)}>
+          {nomeJogador1.trim().length === 0 && nomeJogador2.trim().length === 0
+            ? "Jogar sem digitar nomes!"
+            : "Pronto !"}
+        </Botao>
+      </Menu>
+      <Mensagem hidden={!resultado}>
+        {resultado}{" "}
+        {resultado === "RESETANDO..." || resultado === "ALTERANDO MODO..." ? (
+          <Spinner animation="border" />
+        ) : (
+          ""
+        )}
+      </Mensagem>
+      <Fileiras>{fileiras}</Fileiras>
+      <Painel>
+        <div>
+          <LinhaPainel>
+            <div>
+              Pontos{" "}
+              {jogarContraComputador
+                ? nomeJogador1.trim().length === 0
+                  ? "Jogador:"
+                  : `${
+                      nomeJogador1.trim().length === 0
+                        ? "Jogador 1:"
+                        : nomeJogador1 + ":"
+                    }`
+                : `${
+                    nomeJogador1.trim().length === 0
+                      ? "Jogador 1:"
+                      : nomeJogador1 + ":"
+                  }`}{" "}
+              <strong>{pontosJogador1}</strong>
+            </div>
+            <div>
+              Pontos{" "}
+              {jogarContraComputador
+                ? "computador:"
+                : `${
+                    nomeJogador2.trim().length === 0
+                      ? "Jogador 2:"
+                      : nomeJogador2 + ":"
+                  }`}{" "}
+              <strong>{pontosJogador2}</strong>
+            </div>
+          </LinhaPainel>
+          <LinhaPainel>
+            <div>
+              Vez atual:{" "}
+              <strong>
+                {vezJogador
+                  ? jogarContraComputador
+                    ? "Computador"
+                    : nomeJogador2.trim().length === 0
+                    ? "Jogador 2"
+                    : nomeJogador2
+                  : jogarContraComputador
+                  ? nomeJogador1.trim().length === 0
+                    ? "Jogador"
+                    : nomeJogador1
+                  : nomeJogador1.trim().length === 0
+                  ? "Jogador 1"
+                  : nomeJogador1}
+              </strong>
+            </div>
+            <div>
+              Jogando contra :{" "}
+              <strong>
+                {jogarContraComputador
+                  ? "Computador"
+                  : nomeJogador2.trim().length === 0
+                  ? "Outra pessoa"
+                  : nomeJogador2}
+              </strong>
+            </div>
+          </LinhaPainel>
+        </div>
+        <BotoesPainel>
+          <Botao disabled={!marcados.includes(10)} onClick={() => resetar(4)}>
+            Resetar
+          </Botao>
+          <Botao
+            disabled={marcados.includes(10) || !menu}
+            onClick={() => resetar(5)}
+          >
+            Alterar Modo
+          </Botao>
+          <Botao
+            disabled={marcados.includes(10)}
+            onClick={() => setMenu(!menu)}
+          >
+            <BsGear></BsGear>
+          </Botao>
+        </BotoesPainel>
+      </Painel>
     </Container>
   );
 };
