@@ -1,4 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Simbolo from "../Simbolo";
+import { marcados } from "../marcados";
+import { BsGear } from "react-icons/bs";
+import {
+  Botao,
+  BotoesPainel,
+  Container,
+  Fileiras,
+  Focus,
+  LinhaPainel,
+  Mensagem,
+  Menu,
+  Painel,
+  Quadrinho,
+  Titulo,
+} from "./styles";
+import Spinner from "react-bootstrap/Spinner";
 const Quadro = () => {
   const [pontosJogador1, setPontosJogador1] = useState(0);
   const [pontosJogador2, setpontosJogador2] = useState(0);
@@ -19,7 +36,7 @@ const Quadro = () => {
   const [casa6, setCasa6] = useState(false);
   const [casa7, setCasa7] = useState(false);
   const [casa8, setCasa8] = useState(false);
-  const [fileiras, setFileiras] = useState("");a
+  const [fileiras, setFileiras] = useState("");
   const casas = [casa0, casa1, casa2, casa3, casa4, casa5, casa6, casa7, casa8];
   const setCasas = [
     setCasa0,
@@ -32,8 +49,6 @@ const Quadro = () => {
     setCasa7,
     setCasa8,
   ];
-
-
 
   function mapear() {
     const mapeado = casas.map((bloco, indice) => {
