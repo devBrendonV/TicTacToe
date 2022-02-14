@@ -36,7 +36,21 @@ const Quadro = () => {
 
 
 
-
+  function jogadaComputador() {
+    while (true) {
+      const j = Math.floor(Math.random() * (9 + 1));
+      if (marcados.includes("") === false) {
+        resetar(3);
+        break;
+      }
+      if (marcados[j] === "") {
+        marcar(1, j, false);
+        setCasas[j](<Simbolo jogador={true} hidden={true}></Simbolo>);
+        break;
+      }
+    }
+    setVezJogador(false);
+  }
   function resetarCasas() {
     return setCasas.map((casa) => {
       return casa(false);
